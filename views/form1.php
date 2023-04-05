@@ -50,7 +50,7 @@
             <img class="mb-4" src="../assets/images/KU_Logo.png" alt="" width="100">
             <h2>กรอกข้อมูลส่วนตัว</h2>
             <p class="lead">
-                <?php echo isset($_SESSION['national_id']) ? "ผู้สมัคร : ".$_SESSION['app_data']['prefix_th']." ".$_SESSION['app_data']['fname_th']." ".$_SESSION['app_data']['lname_th'] : "ผู้สมัครใหม่";  ?>
+                <?php echo isset($_SESSION['national_id']) ? "ผู้สมัคร : ".$_SESSION['app_data_old']['prefix_th']." ".$_SESSION['app_data_old']['fname_th']." ".$_SESSION['app_data_old']['lname_th'] : "ผู้สมัครใหม่";  ?>
             </p>
         </div>
 
@@ -69,13 +69,13 @@
                     <div class="col-lg-4 col-12 form-group">
                         <label for="th_prefix">คำนำหน้า</label><br>
                         <select name="th_prefix" id="th_prefix" class=" form-control ">
-                            <option <?php if( isset($_SESSION['app_data']) && $_SESSION['app_data']['prefix_th']=='นาย') {
+                            <option <?php if( isset($_SESSION['app_data_old']) && $_SESSION['app_data_old']['prefix_th']=='นาย') {
                                             echo 'selected="selected"';
                                        } ?> value="นาย">นาย</option>
-                            <option <?php if(isset($_SESSION['app_data']) && $_SESSION['app_data']['prefix_th']=='นาง') {
+                            <option <?php if(isset($_SESSION['app_data_old']) && $_SESSION['app_data_old']['prefix_th']=='นาง') {
                                             echo 'selected="selected"';
                                        } ?> value="นาง">นาง</option>
-                            <option <?php if(isset($_SESSION['app_data']) && $_SESSION['app_data']['prefix_th']=='นางสาว') {
+                            <option <?php if(isset($_SESSION['app_data_old']) && $_SESSION['app_data_old']['prefix_th']=='นางสาว') {
                                             echo 'selected="selected"';
                                        } ?> value="นางสาว">นางสาว</option>
                         </select>
@@ -83,8 +83,8 @@
 
                     <?php
                         $th_firstname_value = "";
-                        if( isset( $_SESSION['app_data']['fname_th'] ) ){
-                            $th_firstname_value = $_SESSION['app_data']['fname_th'] ; 
+                        if( isset( $_SESSION['app_data_old']['fname_th'] ) ){
+                            $th_firstname_value = $_SESSION['app_data_old']['fname_th'] ; 
                         }                    
                     ?>
 
@@ -96,8 +96,8 @@
 
                     <?php
                         $th_lastname_value = "";
-                        if( isset( $_SESSION['app_data']['lname_th'] ) ){
-                            $th_lastname_value = $_SESSION['app_data']['lname_th'] ; 
+                        if( isset( $_SESSION['app_data_old']['lname_th'] ) ){
+                            $th_lastname_value = $_SESSION['app_data_old']['lname_th'] ; 
                         }                    
                     ?>
 
@@ -116,13 +116,13 @@
                     <div class="col-lg-4 col-12  form-group">
                         <label for="en_prefix">Prefix</label><br>
                         <select class="form-select form-control "" aria-label="Default select example" name="en_prefix" id="en_prefix" >
-                            <option <?php if( isset($_SESSION['app_data']) &&  $_SESSION['app_data']['prefix_en']=='Mr.') {
+                            <option <?php if( isset($_SESSION['app_data_old']) &&  $_SESSION['app_data_old']['prefix_en']=='Mr.') {
                                             echo 'selected="selected"';
                                        } ?> value="Mr.">Mr.</option>
-                            <option <?php if(isset($_SESSION['app_data']) &&  $_SESSION['app_data']['prefix_en']=='Ms.') {
+                            <option <?php if(isset($_SESSION['app_data_old']) &&  $_SESSION['app_data_old']['prefix_en']=='Ms.') {
                                             echo 'selected="selected"';
                                        } ?> value="Ms.">Ms.</option>
-                            <option <?php if(isset($_SESSION['app_data']) &&  $_SESSION['app_data']['prefix_en']=='Mrs.') {
+                            <option <?php if(isset($_SESSION['app_data_old']) &&  $_SESSION['app_data_old']['prefix_en']=='Mrs.') {
                                             echo 'selected="selected"';
                                        } ?> value="Mrs.">Mrs.</option>
                         </select>
@@ -131,8 +131,8 @@
 
                         <?php
                         $en_firstname_value = "";
-                        if( isset( $_SESSION['app_data']['fname_en'] ) ){
-                            $en_firstname_value = $_SESSION['app_data']['fname_en'] ; 
+                        if( isset( $_SESSION['app_data_old']['fname_en'] ) ){
+                            $en_firstname_value = $_SESSION['app_data_old']['fname_en'] ; 
                         }                    
                     ?>
 
@@ -144,8 +144,8 @@
 
                     <?php
                         $en_lasttname_value = "";
-                        if( isset( $_SESSION['app_data']['lname_en'] ) ){
-                            $en_lasttname_value = $_SESSION['app_data']['lname_en'] ; 
+                        if( isset( $_SESSION['app_data_old']['lname_en'] ) ){
+                            $en_lasttname_value = $_SESSION['app_data_old']['lname_en'] ; 
                         }                    
                     ?>
 
@@ -160,8 +160,8 @@
                     <div class="col-lg-4 col-12 form-group">
                         <?php
                         $birthday_value = "";
-                        if( isset( $_SESSION['app_data']['birthday_date'] ) ){
-                            $birthday_value = $_SESSION['app_data']['birthday_date'] ; 
+                        if( isset( $_SESSION['app_data_old']['birthday_date'] ) ){
+                            $birthday_value = $_SESSION['app_data_old']['birthday_date'] ; 
                         }                    
                     ?>
                         <label for="app_birthday">ปี/เดือน/วัน เกิด</label>
@@ -176,59 +176,59 @@
                         <label for="ethnicity">เชื้อชาติ</label><br>
                         <select name="ethnicity" id="ethnicity" class="form-control">
                             <option <?php 
-                        if( isset($_SESSION['app_data']) && $_SESSION['app_data']['ethnicity'] == 'ไทย'){
+                        if( isset($_SESSION['app_data_old']) && $_SESSION['app_data_old']['ethnicity'] == 'ไทย'){
                             echo 'selected="selected"';
                         }
                         ?> value="ไทย">ไทย</option>
-                            <option <?php if( isset($_SESSION['app_data']) && $_SESSION['app_data']['ethnicity'] != 'ไทย'){
+                            <option <?php if( isset($_SESSION['app_data_old']) && $_SESSION['app_data_old']['ethnicity'] != 'ไทย'){
                              echo 'selected="selected"';
                         }  ?> value="-1">อื่นๆ</option>
                         </select>
-                        <input required value=" <?php if( isset($_SESSION['app_data']) && $_SESSION['app_data']['ethnicity'] != 'ไทย'){
-                            echo $_SESSION['app_data']['ethnicity'];
-                    } ?> " type="text" name="other_ethnicity" id="other_ethnicity" style="display:none<?php if( isset($_SESSION['app_data']) && $_SESSION['app_data']['ethnicity'] != 'ไทย'){
+                        <input class=" form-control " required value=" <?php if( isset($_SESSION['app_data_old']) && $_SESSION['app_data_old']['ethnicity'] != 'ไทย'){
+                            echo $_SESSION['app_data_old']['ethnicity'];
+                    } ?> " type="text" name="other_ethnicity" id="other_ethnicity" style="display:none<?php if( isset($_SESSION['app_data_old']) && $_SESSION['app_data_old']['ethnicity'] != 'ไทย'){
                         echo "a";
                 } ?>;">
                     </div>
                     <div class="col-lg-4 col-12 form-group">
                         <label for="nationality">สัญชาติ</label><br>
                         <select name="nationality" id="nationality" class="form-control">
-                            <option <?php if( isset($_SESSION['app_data']) && $_SESSION['app_data']['nationality'] == 'ไทย'){
+                            <option <?php if( isset($_SESSION['app_data_old']) && $_SESSION['app_data_old']['nationality'] == 'ไทย'){
                              echo 'selected="selected"';
                         }  ?> value="ไทย">ไทย</option>
-                            <option <?php if( isset($_SESSION['app_data']) && $_SESSION['app_data']['nationality'] != 'ไทย'){
+                            <option <?php if( isset($_SESSION['app_data_old']) && $_SESSION['app_data_old']['nationality'] != 'ไทย'){
                              echo 'selected="selected"';
                         }  ?> value="-1">อื่นๆ</option>
                         </select>
-                        <input required value=" <?php if( isset($_SESSION['app_data']) && $_SESSION['app_data']['nationality'] != 'ไทย') {
-                          echo   $_SESSION['app_data']['nationality'];                               }
-                    ?>  " type="text" name="other_nationality" id="other_nationality" style="display:none<?php if( isset($_SESSION['app_data']) && $_SESSION['app_data']['nationality'] != 'ไทย'){
+                        <input class=" form-control " required value=" <?php if( isset($_SESSION['app_data_old']) && $_SESSION['app_data_old']['nationality'] != 'ไทย') {
+                          echo   $_SESSION['app_data_old']['nationality'];                               }
+                    ?>  " type="text" name="other_nationality" id="other_nationality" style="display:none<?php if( isset($_SESSION['app_data_old']) && $_SESSION['app_data_old']['nationality'] != 'ไทย'){
                         echo "a";
                     } ?>;">
                     </div>
                     <div class="col-lg-4 col-12 form-group">
                         <label for="religion">ศาสนา</label><br>
                         <select name="religion" id="religion" class="form-control">
-                            <option <?php if( isset($_SESSION['app_data']) &&  $_SESSION['app_data']['religion']=='พุทธ') {
+                            <option <?php if( isset($_SESSION['app_data_old']) &&  $_SESSION['app_data_old']['religion']=='พุทธ') {
                                             echo 'selected="selected"';
                                        } ?> value="พุทธ">พุทธ</option>
-                            <option <?php if( isset($_SESSION['app_data']) &&  $_SESSION['app_data']['religion']=='คริสต์') {
+                            <option <?php if( isset($_SESSION['app_data_old']) &&  $_SESSION['app_data_old']['religion']=='คริสต์') {
                                             echo 'selected="selected"';
                                        } ?> value="คริสต์">คริสต์</option>
-                            <option <?php if( isset($_SESSION['app_data']) &&  $_SESSION['app_data']['religion']=='อิสลาม') {
+                            <option <?php if( isset($_SESSION['app_data_old']) &&  $_SESSION['app_data_old']['religion']=='อิสลาม') {
                                             echo 'selected="selected"';
                                        } ?> value="อิสลาม">อิสลาม</option>
-                            <option <?php if( isset($_SESSION['app_data']) && $_SESSION['app_data']['religion'] != 'พุทธ' &&  $_SESSION['app_data']['religion'] != 'คริสต์' &&  $_SESSION['app_data']['religion'] != 'อิสลาม') {
+                            <option <?php if( isset($_SESSION['app_data_old']) && $_SESSION['app_data_old']['religion'] != 'พุทธ' &&  $_SESSION['app_data_old']['religion'] != 'คริสต์' &&  $_SESSION['app_data_old']['religion'] != 'อิสลาม') {
                                             echo 'selected="selected"';
                                        } ?> value="-1">อื่นๆ</option>
                         </select>
-                        <input required value="<?php if( isset($_SESSION['app_data']) && $_SESSION['app_data']['religion'] != 'พุทธ' &&  $_SESSION['app_data']['religion'] != 'คริสต์' &&  $_SESSION['app_data']['religion'] != 'อิสลาม'){
+                        <input class=" form-control " required value="<?php if( isset($_SESSION['app_data_old']) && $_SESSION['app_data_old']['religion'] != 'พุทธ' &&  $_SESSION['app_data_old']['religion'] != 'คริสต์' &&  $_SESSION['app_data_old']['religion'] != 'อิสลาม'){
 
-                            echo   $_SESSION['app_data']['religion'] ;
+                            echo   $_SESSION['app_data_old']['religion'] ;
 
                     }
                     
-                    ?> " type="text" name="other_religion" id="other_religion" style="display:none <?php if( isset($_SESSION['app_data']) && $_SESSION['app_data']['religion'] != 'พุทธ' &&  $_SESSION['app_data']['religion'] != 'คริสต์' &&  $_SESSION['app_data']['religion'] != 'อิสลาม'){
+                    ?> " type="text" name="other_religion" id="other_religion" style="display:none <?php if( isset($_SESSION['app_data_old']) && $_SESSION['app_data_old']['religion'] != 'พุทธ' &&  $_SESSION['app_data_old']['religion'] != 'คริสต์' &&  $_SESSION['app_data_old']['religion'] != 'อิสลาม'){
 
                         echo   "a";
 
@@ -249,16 +249,16 @@
                 <div class="col-lg-12 col-12 row mt-3">
                     <div class="col-4 form-group ">
                         <label for="Address">บ้านเลขที่/หมู่/ชื่อหมูบ้าน(เรียงตามลำดับ)</label>
-                        <input required value="<?php if( isset($_SESSION['app_data']) &&  isset($_SESSION['app_data']['details_address'])) {
-                                            echo $_SESSION['app_data']['details_address'];
+                        <input required value="<?php if( isset($_SESSION['app_data_old']) &&  isset($_SESSION['app_data_old']['details_address'])) {
+                                            echo $_SESSION['app_data_old']['details_address'];
                                        } ?>" type="text" class="form-control" id="Address" name="Address"
                             placeholder="บ้านเลขที่/หมู่/ชื่อหมูบ้าน">
                     </div>
 
                     <div class="col-4 form-group ">
-                        <label for="street">ถนน</label>
-                        <input required value="<?php if( isset($_SESSION['app_data']) &&  isset($_SESSION['app_data']['Road'])) {
-                                            echo $_SESSION['app_data']['Road'];
+                        <label for="street">ถนน</label>(ถ้าไม่มีให้ใส่ - )
+                        <input value="<?php if( isset($_SESSION['app_data_old']) &&  isset($_SESSION['app_data_old']['Road'])) {
+                                            echo $_SESSION['app_data_old']['Road'];
                                        } ?>" type="text" class="form-control" id="street" name="street"
                             placeholder="ถนน">
                     </div>
@@ -297,15 +297,15 @@
                 <div style="margin-left: 2px;" class="row">
                 <div class="col-4 form-group ">
                         <label for="Email">อีเมล</label>
-                        <input required value="<?php if( isset($_SESSION['app_data']) &&  isset($_SESSION['app_data']['email'])) {
-                                            echo $_SESSION['app_data']['email'];
+                        <input  required value="<?php if( isset($_SESSION['app_data_old']) &&  isset($_SESSION['app_data_old']['email'])) {
+                                            echo $_SESSION['app_data_old']['email'];
                                        } ?>" type="email" class="form-control" id="Email" name="Email"
                             placeholder="อีเมล">
                     </div>
                     <div class="col-4 form-group ">
                         <label for="Telephone">เบอร์โทร</label>
-                        <input require value="<?php if( isset($_SESSION['app_data']) &&  isset($_SESSION['app_data']['phone_number'])) {
-                                            echo $_SESSION['app_data']['phone_number'];
+                        <input require value="<?php if( isset($_SESSION['app_data_old']) &&  isset($_SESSION['app_data_old']['phone_number'])) {
+                                            echo $_SESSION['app_data_old']['phone_number'];
                                        } ?>" type="text" class="form-control" id="Telephone" name="Telephone"
                             placeholder="เบอร์โทร">
                     </div>
@@ -319,22 +319,37 @@
                             <label for="ocq">อาชีพผู้ปกครอง</label>
                             <select name="ocq" id="ocq" class="form-control">
                             <option value="">เลือกอาชีพ</option> 
-                                <option value="เกษตรกร">เกษตรกร</option>
-                                <option value="ข้าราชการ">ข้าราชการ</option>
-                                <option value="-1">อื่นๆ</option>
+                                <option <?php if( isset($_SESSION['app_data_old']) && $_SESSION['app_data_old']['occupation'] == 'เกษตรกร'){echo 'selected="selected"'; } ?> value="เกษตรกร">เกษตรกร</option>
+                                <option <?php if( isset($_SESSION['app_data_old']) && $_SESSION['app_data_old']['occupation'] == 'ข้าราชการ'){echo 'selected="selected"'; } ?> value="ข้าราชการ">ข้าราชการ</option>
+                                <option  value="-1">อื่นๆ</option>
                             </select>
-                            <input style="display: none;" id="other_ocq" type="" 
+                            <input class=" form-control " value="<?php if( isset($_SESSION['app_data_old']) && $_SESSION['app_data_old']['occupation'] != 'เกษตรกร' &&  $_SESSION['app_data_old']['occupation'] != 'ข้าราชการ'){ echo $_SESSION['app_data_old']['occupation'];} ?>  " style="display: none<?php if( isset($_SESSION['app_data_old']) && $_SESSION['app_data_old']['occupation'] != 'เกษตรกร' &&  $_SESSION['app_data_old']['occupation'] != 'ข้าราชการ'){
+                                echo   "a";
+                                }
+                                ?>;" id="other_ocq" type="" 
                             name="other_ocq">
                         </div>
                          <div class="form-group col-md-4">
                             <label for="income">รายได้ผู้ปกครอง</label>
                             <select name="income" id="income" class="form-control">
                             <option value="">เลือกรายได้</option> 
-                                <option  value="15000">15000</option>
-                                <option  value="30000">30000</option>
+                                <option <?php if( isset($_SESSION['app_data_old']['income']) && $_SESSION['app_data_old']['income'] == 15000 && isset($_SESSION['app_data_old']['income'])){ echo 'selected="selected"'; } ?>  value="15000">15000</option>
+                                <option <?php if(isset($_SESSION['app_data_old']['income']) && $_SESSION['app_data_old']['income'] == 30000 && isset($_SESSION['app_data_old']['income']) ){ echo 'selected="selected"'; } ?>  value="30000">30000</option>
                                 <option value="-1">อื่นๆ</option>
                             </select>
-                             <input style="display: none;" id="other_income" type="" name="other_income">
+                             <input class=" form-control " value=" <?php if( isset($_SESSION['app_data_old']) && isset($_SESSION['app_data_old']['income']) && $_SESSION['app_data_old']['income'] != 15000 &&  $_SESSION['app_data_old']['income'] != 30000){
+
+                                echo   $_SESSION['app_data_old']['income'] ;
+
+                                }
+
+                                ?> " style="display: none<?php if( isset($_SESSION['app_data_old']) && isset($_SESSION['app_data_old']['income']) &&$_SESSION['app_data_old']['income'] != 15000 &&  $_SESSION['app_data_old']['income'] != 30000){
+
+                                    echo   "a";
+            
+                            }
+                            
+                            ?>;" id="other_income" type="" name="other_income">
                         </div>
                  </div>
 

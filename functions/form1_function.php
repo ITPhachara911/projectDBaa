@@ -38,33 +38,40 @@
     //  print( $record_number." ".$date );
 
     if( $record_number == 1 ){
-        $update_sql = " UPDATE `appapplications` SET  `religion` = '".$selected_religion."', 
-                                        `prefix_th` =  '".$_POST['th_prefix']."',
-                                        `fname_th` = '".$_POST['th_firstname']."',
-                                        `lname_th` =  '".$_POST['th_lastname']."',
-                                        `prefix_en` = '".$_POST['en_prefix']."',
-                                        `fname_en` =  '".$_POST['en_firstname']."',
-                                        `lname_en` = '".$_POST['en_lastname']."',
-                                        `ethnicity` = '".$selected_ethnicity."',
-                                        `nationality` =  '".$selected_nationality."',
-                                        `birthday_date` =  ".$date."
-                                         WHERE national_id = '".$_SESSION['new_national_id']."' ;";
+        $sql_query = " SELECT app_id FROM `appapplications` WHERE `national_id` = '".$_SESSION['new_national_id']."' AND `tcas_round` = ".$_SESSION['TCAS_round']." ;  ";
+        $result = $mysqli->query($sql_query);
+        $record_number1 = mysqli_num_rows( $result );
+       if( $record_number1 == 1){
+        $row = $result->fetch_assoc();
+                                $update_sql = " UPDATE `appapplications` SET  `religion` = '".$selected_religion."', 
+                                `prefix_th` =  '".$_POST['th_prefix']."',
+                                `fname_th` = '".$_POST['th_firstname']."',
+                                `lname_th` =  '".$_POST['th_lastname']."',
+                                `prefix_en` = '".$_POST['en_prefix']."',
+                                `fname_en` =  '".$_POST['en_firstname']."',
+                                `lname_en` = '".$_POST['en_lastname']."',
+                                `ethnicity` = '".$selected_ethnicity."',
+                                `nationality` =  '".$selected_nationality."',
+                                `birthday_date` =  ".$date."
+                                WHERE national_id = '".$_SESSION['new_national_id']."' ;";
 
-         $update_sql .= " UPDATE `address_info` SET  `details_address` = '".$_POST['Address']."',
-                                                     `Road` = '".$_POST['street']."',
-                                                     `provinces_id` = '".$_POST['province_id']."',
-                                                     `amphures_id` = '".$_POST['amphure_id']."',
-                                                     `districts_id` = '".$_POST['district_id']."'
-                                        WHERE national_id = '".$_SESSION['new_national_id']."' ;";  
+                                 $update_sql .= " UPDATE `address_info` SET  `details_address` = '".$_POST['Address']."',
+                                            `Road` = '".$_POST['street']."',
+                                            `provinces_id` = '".$_POST['province_id']."',
+                                            `amphures_id` = '".$_POST['amphure_id']."',
+                                            `districts_id` = '".$_POST['district_id']."'
+                                WHERE application_id = '".$row['app_id']."' ;";  
 
-         $update_sql .= " UPDATE `contact_info` SET  `email` = '".$_POST['Email']."',  
-                                                     `phone_number` = '".$_POST['Telephone']."'
-                                        WHERE national_id = '".$_SESSION['new_national_id']."' ;";                      
-         $update_sql .= " UPDATE `parent_info` SET  `income` = '".$income."',  
-                                                     `occupation` = '".$ocq."'
-                                        WHERE national_id = '".$_SESSION['new_national_id']."' ;";                      
-        
-        $mysqli->multi_query($update_sql);
+                                $update_sql .= " UPDATE `contact_info` SET  `email` = '".$_POST['Email']."',  
+                                            `phone_number` = '".$_POST['Telephone']."'
+                                WHERE application_id = '".$row['app_id']."' ;";                      
+                                $update_sql .= " UPDATE `parent_info` SET  `income` = '".$income."',  
+                                            `occupation` = '".$ocq."'
+                                WHERE application_id = '".$row['app_id']."' ;";                      
+
+                                $mysqli->multi_query($update_sql);
+                                $_SESSION['status'] = $mysqli;
+       }
     }
     else{
 
@@ -72,19 +79,31 @@
 
         $insert_sql = "INSERT INTO `appapplications` (`tcas_round`, `prefix_th`, `fname_th`, `lname_th`, `prefix_en`, `fname_en`, `lname_en`, `birthday_date`, `ethnicity`, `nationality`, `religion`,`national_id`)
         VALUES ('".$_SESSION['TCAS_round']."','".$_POST['th_prefix']."','".$_POST['th_firstname']."','".$_POST['th_lastname']."','".$_POST['en_prefix']."','".$_POST['en_firstname']."','".$_POST['en_lastname']."',".$date.",'".$_POST['ethnicity']."','".$_POST['nationality']."','".$selected_religion."','".$_SESSION['new_national_id']."');";
-        
-        
-         $insert_sql .= "INSERT INTO `address_info` (`details_address`, `Road`, `provinces_id`, `amphures_id`, `districts_id`)
-         VALUES ('".$_POST['Address']."','".$_POST['street']."','".$_POST['province_id']."','".$_POST['amphure_id']."','".$_POST['district_id']."');
-         ";    
 
-        $insert_sql .= "INSERT INTO `contact_info` ( `email`,`phone_number`)
-                             VALUES ('".$_POST['Email']."','".$_POST['Telephone']."');";    
-         $insert_sql .= "INSERT INTO `parent_info` ( `income`,`occupation`)
-                             VALUES ('".$income."','".$ocq."');";
-         echo $insert_sql;
+        $mysqli->query($insert_sql);
 
-        $mysqli->multi_query($insert_sql);
+        if($mysqli){
+            $sql_query = " SELECT app_id FROM `appapplications` WHERE `national_id` = '".$_SESSION['new_national_id']."' AND `tcas_round` = ".$_SESSION['TCAS_round']." ;  ";
+            $result = $mysqli->query($sql_query);
+            $record_number = mysqli_num_rows( $result );
+
+            if( $record_number == 1 ){
+                $row = $result->fetch_assoc();
+               
+
+                $insert_sql = "INSERT INTO `address_info` (`details_address`, `Road`, `provinces_id`, `amphures_id`, `districts_id`,`application_id`)
+                VALUES ('".$_POST['Address']."','".$_POST['street']."','".$_POST['province_id']."','".$_POST['amphure_id']."','".$_POST['district_id']."','" .$row['app_id']."');
+                ";    
+       
+               $insert_sql .= "INSERT INTO `contact_info` ( `email`,`phone_number`,`application_id`)
+                                    VALUES ('".$_POST['Email']."','".$_POST['Telephone']."','" .$row['app_id']."');";    
+                $insert_sql .= "INSERT INTO `parent_info` ( `income`,`occupation`,`application_id`)
+                                    VALUES ('".$income."','".$ocq."','".$row['app_id']."');";
+                // echo $insert_sql;
+       
+               $mysqli->multi_query($insert_sql);
+            }
+        }
         $_SESSION['status'] = $mysqli;
     }
 

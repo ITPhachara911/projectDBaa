@@ -32,11 +32,10 @@
        if( $record_number == 1 ){
         $personal_data = $result->fetch_assoc();
 
-        print_r( $personal_data );
 
         $_SESSION['national_id'] = $personal_data['national_id'];        
         $_SESSION['TCAS_round'] = $personal_data['tcas_round'];        
-        $_SESSION['app_data'] = $personal_data;
+        $_SESSION['app_data_old'] = $personal_data;
         $_SESSION['new_national_id'] = $national_id;
        }
     }    
